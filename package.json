@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/narisp/cordova-plugin-MyKadReader.git"
+    "url": "git+https://github.com/narisp/NarisCardReader.git"
   },
   "keywords": [
     "Toast",
@@ -29,7 +29,7 @@
   "author": "Stanley Idesis <stan.idesis@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stanidesis/toastyplugin/issues"
+    "url": "https://github.com/narisp/NarisCardReader"
   },
-  "homepage": "https://github.com/stanidesis/toastyplugin/"
+  "homepage": "https://github.com/narisp/NarisCardReader"
 }

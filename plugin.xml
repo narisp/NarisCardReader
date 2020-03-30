@@ -21,7 +21,7 @@
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="MyKadPlugin">
-        <param name="android-package" value="www.xxx"/>
+        <param name="android-package" value="smartcard.redone.com.mykad.MyKadPlugin"/>
       </feature>
     </config-file>
 
