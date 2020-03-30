@@ -83,18 +83,18 @@ public class MyKadPlugin extends CordovaPlugin {
             return true;
         }else if (action.equals("read")) {
             try {
-                //message += "I am Clicked !\n"
-                //        + myCardReader.getReaderName() + "\n"
-                //        + " Status : " + stateStrings[myCardReader.getState()];
+                message += "I am Clicked !\n"
+                        + myCardReader.getReaderName() + "\n"
+                        + " Status : " + stateStrings[myCardReader.getState()];
 
 
                 if(checkCard(myCardReader.connectToCard())){
                     if (myCardReader.getState() == 2 || myCardReader.getState() == 6 ) {
-                        //message += "Reader is connected " + myKad.TAG;
+                        message += "Reader is connected " + myKad.TAG;
 
                         if (myKad.selectApplicationJPN() == true) {
                             myKad_data = myKad.GetMyKadDetail();
-                            /*
+                            
                             message += "Result is "
                                     + myKad_data.GetName() + "\n"
                                     + myKad_data.GetNric() + "\n"
@@ -109,7 +109,7 @@ public class MyKadPlugin extends CordovaPlugin {
                                     + myKad_data.GetPostcode() + "\n"
                                     + myKad_data.GetState() + "\n"
                             ;
-                            */
+                            /*
                             obj.put(NAME,myKad_data.GetName());
                             obj.put(NRIC,myKad_data.GetNric());
                             obj.put(CITIZENSHIP,myKad_data.GetCitizenship());
@@ -122,37 +122,38 @@ public class MyKadPlugin extends CordovaPlugin {
                             obj.put(RACE,myKad_data.GetRace());
                             obj.put(POSTCODE,myKad_data.GetPostcode());
                             obj.put(STATE,myKad_data.GetState());
+                            */
                         } else {
-                            //message += "Using JPN Application is not supported";
-                            obj.put(MESSAGE, "Using JPN Application is not supported");
+                            message += "Using JPN Application is not supported";
+                            //obj.put(MESSAGE, "Using JPN Application is not supported");
                         }
                     } else {
-                        //message += "No Card is connected !";
-                        obj.put(MESSAGE, "No Card is connected !");
+                        message += "No Card is connected !";
+                        //obj.put(MESSAGE, "No Card is connected !");
                     }
                 }else{
-                    //message += "Check card : Invalid";
-                    obj.put(MESSAGE, "Check card : Invalid");
+                    message += "Check card : Invalid";
+                    //obj.put(MESSAGE, "Check card : Invalid");
                 }
 
                 myCardReader.unpowerCard();
             } catch (Exception e) {
-                //message += "Trying to read card failed "+ e;
-                obj.put(MESSAGE, "Trying to read card failed " + e);
+                message += "Trying to read card failed "+ e;
+                //obj.put(MESSAGE, "Trying to read card failed " + e);
                 myCardReader.unpowerCard();
             }
 
-            callbackContext.success(obj);
+            callbackContext.success(message);
             return true;
         }else if (action.equals("connect")) {
             initializeCardReader();
             if(myKad != null){
                 myKad = new MyKad(myCardReader);
-                //message += "I am IN !";
-                obj.put(MESSAGE, "Card Reader is connected successfully!");
+                message += "I am IN !";
+                //obj.put(MESSAGE, "Card Reader is connected successfully!");
             }
 
-            callbackContext.success(obj);
+            callbackContext.success(message);
             return true;
         }else {
             return false;
