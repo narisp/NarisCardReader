@@ -75,27 +75,26 @@ public class MyKadPlugin extends CordovaPlugin {
             Log.d(TAG,"greet is requested");
 
             String name = data.getString(0);
-            message = "Hello, " + name;
+            message = " Hello, " + name;
             obj.put(MESSAGE,message);
             //Log.d(TAG, "obj is " + obj);
-            callbackContext.success(message);
+            callbackContext.success(obj);
 
             return true;
         }else if (action.equals("read")) {
             try {
-                message = "I am Clicked !\n"
-                        + myCardReader.getReaderName() + "\n"
-                        + "Status: " + myCardReader.getState() +"("+ stateStrings[myCardReader.getState()] +")\n";
+                //message += "I am Clicked !\n"
+                //        + myCardReader.getReaderName() + "\n"
+                //        + " Status : " + stateStrings[myCardReader.getState()];
 
 
                 if(checkCard(myCardReader.connectToCard())){
-                    message += "Status 2:"+ myCardReader.getState() +"\n";
                     if (myCardReader.getState() == 2 || myCardReader.getState() == 6 ) {
-                        message += "Reader is connected " + myKad.TAG +"\n";
+                        //message += "Reader is connected " + myKad.TAG;
 
                         if (myKad.selectApplicationJPN() == true) {
                             myKad_data = myKad.GetMyKadDetail();
-                            
+                            /*
                             message += "Result is "
                                     + myKad_data.GetName() + "\n"
                                     + myKad_data.GetNric() + "\n"
@@ -110,7 +109,7 @@ public class MyKadPlugin extends CordovaPlugin {
                                     + myKad_data.GetPostcode() + "\n"
                                     + myKad_data.GetState() + "\n"
                             ;
-                            /*
+                            */
                             obj.put(NAME,myKad_data.GetName());
                             obj.put(NRIC,myKad_data.GetNric());
                             obj.put(CITIZENSHIP,myKad_data.GetCitizenship());
@@ -123,38 +122,37 @@ public class MyKadPlugin extends CordovaPlugin {
                             obj.put(RACE,myKad_data.GetRace());
                             obj.put(POSTCODE,myKad_data.GetPostcode());
                             obj.put(STATE,myKad_data.GetState());
-                            */
                         } else {
-                            message += "Using JPN Application is not supported";
-                            //obj.put(MESSAGE, "Using JPN Application is not supported");
+                            //message += "Using JPN Application is not supported";
+                            obj.put(MESSAGE, "Using JPN Application is not supported");
                         }
                     } else {
-                        message += "No Card is connected!";
-                        //obj.put(MESSAGE, "No Card is connected !");
+                        //message += "No Card is connected !";
+                        obj.put(MESSAGE, "No Card is connected !");
                     }
                 }else{
-                    message += "Check card : Invalid";
-                    //obj.put(MESSAGE, "Check card : Invalid");
+                    //message += "Check card : Invalid";
+                    obj.put(MESSAGE, "Check card : Invalid");
                 }
 
                 myCardReader.unpowerCard();
             } catch (Exception e) {
-                message += "Trying to read card failed "+ e;
-                //obj.put(MESSAGE, "Trying to read card failed " + e);
+                //message += "Trying to read card failed "+ e;
+                obj.put(MESSAGE, "Trying to read card failed " + e);
                 myCardReader.unpowerCard();
             }
 
-            callbackContext.success(message);
+            callbackContext.success(obj);
             return true;
         }else if (action.equals("connect")) {
             initializeCardReader();
             if(myKad != null){
                 myKad = new MyKad(myCardReader);
-                message = "I am IN !";
-                //obj.put(MESSAGE, "Card Reader is connected successfully!");
+                //message += "I am IN !";
+                obj.put(MESSAGE, "Card Reader is connected successfully!");
             }
 
-            callbackContext.success(message);
+            callbackContext.success(obj);
             return true;
         }else {
             return false;
@@ -163,7 +161,7 @@ public class MyKadPlugin extends CordovaPlugin {
 
     /*starting of function from MyKad.java*/
     private void initializeCardReader() {
-        message += TAG + "Initialisation started";
+        //message += TAG + "Initialisation started";
         myCardReader.detectUsbDevice(this.isReaderAutoDetect);
     }
 
@@ -171,10 +169,10 @@ public class MyKadPlugin extends CordovaPlugin {
         try {
             if (CardReader.isConnectedToReader) {
                 if (myKad.checkCard(connectProgress)) {
-                    message += "Check card true\n";
+                    //message += "check card true";
                     return true;
                 }
-                message += "check card false due to " + connectProgress.atr;
+                //message += "check card false due to " + connectProgress.atr;
                 return false;
             }
             throw new Exception("Please connect reader");
