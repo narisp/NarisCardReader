@@ -65,16 +65,18 @@ public class MyKad {
     */
 
     public boolean selectApplicationJPN (){
-        //Log.d(TAG, "----> Starting of Application Selection");
+        Log.d(TAG, "----> Starting of Application Selection");
+        Log.d(TAG, "SELECT String :"+ myKad_jpn.SELECT_JPN_APPLICATION);
         byte[] commandApp = myHelper.stringToByteArray(myKad_jpn.SELECT_JPN_APPLICATION);
-        //Log.d(TAG, "1 - command select application " + commandApp);
+        Log.d(TAG, "1 - command select application " + commandApp);
 
         CardReader.TransmitProgress respondApp = myReader.sendApdu(commandApp);
         String respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+        Log.d(TAG, "1.1 respondStr :"+respondStr);
 
         if(respondStr.endsWith("6105")) {
             byte[] commandRespond = myHelper.stringToByteArray(myKad_jpn.SELECT_APPLICATION_GET_RESPONSE);
-            //Log.d(TAG, "2 - command get respond  " + commandRespond);
+            Log.d(TAG, "2 - command get respond  " + commandRespond);
 
             CardReader.TransmitProgress respondRespond = myReader.sendApdu(commandRespond);
             respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
@@ -90,32 +92,32 @@ public class MyKad {
     }
 
     public String readMyKad(String jpn,  String str_length, String str_offset, boolean convert)  {
-        //Log.d(TAG, "----> Starting of Reading MyKad Info");
+        Log.d(TAG, "----> Starting of Reading MyKad Info");
         String result = "";
         short length = Short.parseShort(str_length,16);
-        //Log.d(TAG," Length of item is " + length);
+        Log.d(TAG," Length of item is " + length);
 
 
         byte[] commandLength = myHelper.stringToByteArray(myKad_jpn.SET_LENGTH + str_length + " 00");
 
-        //Log.d(TAG, "3 - command setLength " + commandLength);
+        Log.d(TAG, "3 - command setLength " + commandLength);
 
         CardReader.TransmitProgress respondLength = myReader.sendApdu(commandLength);
         String respondStr = Helper.byteToHexString(respondLength.response, respondLength.responseLength);
 
-        //Log.d(TAG, "Check if end with 9108 ? " + respondStr);
+        Log.d(TAG, "Check if end with 9108 ? " + respondStr);
         if (respondStr.endsWith("9108")) {
             byte[] commandSelectInfo = myHelper.stringToByteArray(myKad_jpn.SELECT_INFO + jpn + str_offset + str_length + " 00");
-            //Log.d(TAG, "4 - command selectInfo " + commandSelectInfo);
+            Log.d(TAG, "4 - command selectInfo " + commandSelectInfo);
 
             CardReader.TransmitProgress respondSelectInfo = myReader.sendApdu(commandSelectInfo);
             respondStr = Helper.byteToHexString(respondSelectInfo.response, respondSelectInfo.responseLength);
 
             byte[] commandReadInfo = myHelper.stringToByteArray(myKad_jpn.READ_INFO + str_length);
-            //Log.d(TAG, "5 - command readInfo " + commandReadInfo);
+            Log.d(TAG, "5 - command readInfo " + commandReadInfo);
 
             CardReader.TransmitProgress respondReadInfo = myReader.sendApdu(commandReadInfo);
-            //Log.e(TAG, "respondReadInfo length was " + respondReadInfo.responseLength);
+            Log.e(TAG, "respondReadInfo length was " + respondReadInfo.responseLength);
             //respondStr = Helper.byteToHexString(respondReadInfo.response, respondReadInfo.responseLength);
             //byteToHexString and byteAsString is similar, but byteToHexString is shorter to use but less accurate
             respondStr = Helper.byteAsString(respondReadInfo.response, 0, respondReadInfo.responseLength,false);
