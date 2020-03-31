@@ -310,10 +310,10 @@ public class CardReader {
             connectProgress.atr = power;
             connectProgress.atrLength = power.length;
             connectProgress.e = null;
-            logMsg("atr " + connectProgress.atr + "length " + connectProgress.atrLength);
+            logMsg("atr " + connectProgress.atr + " length " + connectProgress.atrLength);
             return connectProgress;
         } catch (Exception e) {
-            logMsg(e.toString());
+            logMsg("e:"+ e.toString());
             connectProgress.atr = null;
             connectProgress.atrLength = 0;
             connectProgress.e = e;

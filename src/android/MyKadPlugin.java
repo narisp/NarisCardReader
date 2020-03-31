@@ -90,7 +90,7 @@ public class MyKadPlugin extends CordovaPlugin {
 
                 if(checkCard(myCardReader.connectToCard())){
                     message += "Status 2:"+ myCardReader.getState() +"\n";
-                    if (myCardReader.getState() == 5 || myCardReader.getState() == 6 ) {
+                    if (myCardReader.getState() == 2 || myCardReader.getState() == 6 ) {
                         message += "Reader is connected " + myKad.TAG +"\n";
 
                         if (myKad.selectApplicationJPN() == true) {
