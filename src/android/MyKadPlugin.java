@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import smartcard.redone.com.mykad.MyKad_Data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -101,16 +102,10 @@ public class MyKadPlugin extends CordovaPlugin {
                             message += "Result is "
                                     + myKad_data.GetName() + "\n"
                                     + myKad_data.GetNric() + "\n"
-                                    + myKad_data.GetCitizenship() + "\n"
+                                    + myKad_data.GetDateOfBirth() +"\n"
                                     + myKad_data.GetCity() + "\n"
                                     + myKad_data.GetAddress1() + "\n"
-                                    + myKad_data.GetAddress2() + "\n"
-                                    + myKad_data.GetAddress3() + "\n"
                                     + myKad_data.GetDateOfBirth() + "\n"
-                                    + myKad_data.GetGender() + "\n"
-                                    + myKad_data.GetRace() + "\n"
-                                    + myKad_data.GetPostcode() + "\n"
-                                    + myKad_data.GetState() + "\n"
                             ;
                             /*
                             obj.put(NAME,myKad_data.GetName());

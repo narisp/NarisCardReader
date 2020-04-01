@@ -1,6 +1,9 @@
 package smartcard.redone.com.mykad;
 
+import java.io.UnsupportedEncodingException;
+
 import com.acs.smartcard.Reader;
+import java.nio.charset.StandardCharsets;
 import android.util.Log;
 
 /**
@@ -37,7 +40,7 @@ public class MyKad {
         
         Log.d(TAG, "----> Starting of Select CID");
         Log.d(TAG, "CID String 80 B0 00 04 02 00 0D");
-        byte[] commandApp = myHelper.stringToByteArray("80 B0 00 11 02 00 64");
+        byte[] commandApp = myHelper.stringToByteArray("80 B0 00 04 02 00 0D");
         Log.d(TAG, "1 - command get CID " + commandApp);
 
         CardReader.TransmitProgress respondApp = myReader.sendApdu(commandApp);
@@ -45,10 +48,97 @@ public class MyKad {
         String respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
         Log.d(TAG, "1.1 CID respondStr :"+ respondStr);
 
-        byte[] commandRespond = myHelper.stringToByteArray("00 C0 00 00 64");
+        byte[] commandRespond = myHelper.stringToByteArray("00 C0 00 00 0D");
         CardReader.TransmitProgress respondRespond = myReader.sendApdu(commandRespond);
         respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
-        Log.d(TAG, "2 - CID command get respondStr  " + respondStr);
+        Log.d(TAG, "2 - CID command get respondStr (End with 900?)  " + respondStr);
+        Log.d(TAG, "CID to TIS620:"+ HextoAsc(respondRespond.response).substring(0,12));
+        myKad_data.SetNric(HextoAsc(respondRespond.response).substring(0,13));
+
+/*===================================*/
+        Log.d(TAG, "----> Starting of Select Name Eng");
+        commandApp = myHelper.stringToByteArray("80 B0 00 75 02 00 64");
+        Log.d(TAG, "1 - command get Eng " + commandApp);
+
+        respondApp = myReader.sendApdu(commandApp);
+        Log.d(TAG, "1.1 Eng respondStrHex length :"+ respondApp.responseLength);
+        respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+        Log.d(TAG, "1.1 Eng respondStr :"+ respondStr);
+
+        commandRespond = myHelper.stringToByteArray("00 C0 00 00 64");
+        respondRespond = myReader.sendApdu(commandRespond);
+        respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+        Log.d(TAG, "2 - Eng command get respondStr (End with 900?)  " + respondStr);
+        Log.d(TAG, "Eng to TIS620:"+ HextoAsc(respondRespond.response)); 
+        myKad_data.SetCity(HextoAsc(respondRespond.response).trim());
+        
+/*===================================*/
+Log.d(TAG, "----> Starting of Select Name Thai");
+commandApp = myHelper.stringToByteArray("80 B0 00 11 02 00 64");
+Log.d(TAG, "1 - command get Thai " + commandApp);
+
+respondApp = myReader.sendApdu(commandApp);
+Log.d(TAG, "1.1 Thai respondStrHex length :"+ respondApp.responseLength);
+respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+Log.d(TAG, "1.1 Thai respondStr :"+ respondStr);
+
+commandRespond = myHelper.stringToByteArray("00 C0 00 00 64");
+respondRespond = myReader.sendApdu(commandRespond);
+respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+Log.d(TAG, "2 - Thai command get respondStr (End with 900?)  " + respondStr);
+Log.d(TAG, "Thai to TIS620:"+ HextoAsc(respondRespond.response));    
+myKad_data.SetName(HextoAsc(respondRespond.response).trim());
+
+
+/*===================================*/
+Log.d(TAG, "----> Starting of Select DOB");
+commandApp = myHelper.stringToByteArray("80 B0 00 D9 02 00 08");
+Log.d(TAG, "1 - command get DOB " + commandApp);
+
+respondApp = myReader.sendApdu(commandApp);
+Log.d(TAG, "1.1 DOB respondStrHex length :"+ respondApp.responseLength);
+respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+Log.d(TAG, "1.1 DOB respondStr :"+ respondStr);
+
+commandRespond = myHelper.stringToByteArray("00 C0 00 00 08");
+respondRespond = myReader.sendApdu(commandRespond);
+respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+Log.d(TAG, "2 - DOB command get respondStr (End with 900?)  " + respondStr);
+Log.d(TAG, "DOB to TIS620:"+ HextoAsc(respondRespond.response).substring(0,8));
+myKad_data.SetDateOfBirth(HextoAsc(respondRespond.response).substring(0,8));
+
+/*=================================== Address */
+Log.d(TAG, "----> Starting of Select Address");
+commandApp = myHelper.stringToByteArray("80 B0 15 79 02 00 A0");
+Log.d(TAG, "1 - command get Address " + commandApp);
+
+respondApp = myReader.sendApdu(commandApp);
+Log.d(TAG, "1.1 Address respondStrHex length :"+ respondApp.responseLength);
+respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+Log.d(TAG, "1.1 Address respondStr :"+ respondStr);
+
+commandRespond = myHelper.stringToByteArray("00 C0 00 00 A0");
+respondRespond = myReader.sendApdu(commandRespond);
+respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+Log.d(TAG, "2 - Address command get respondStr (End with 900?)  " + respondStr);
+Log.d(TAG, "Address to TIS620:"+ HextoAsc(respondRespond.response)); 
+myKad_data.SetAddress1(HextoAsc(respondRespond.response).trim());
+
+/*=================================== Image*/
+// Log.d(TAG, "----> Starting of Select Image");
+// commandApp = myHelper.stringToByteArray("80 B0 01 7B 02 00 FF");
+// Log.d(TAG, "1 - command get Image " + commandApp);
+
+// respondApp = myReader.sendApdu(commandApp);
+// Log.d(TAG, "1.1 Image respondStrHex length :"+ respondApp.responseLength);
+// respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+// Log.d(TAG, "1.1 Image respondStr :"+ respondStr);
+
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// //respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+// //Log.d(TAG, "2 - Image command get respondStr (End with 900?)  " + respondStr);
+// Log.d(TAG, "Image 1/20 to TIS620:"+ HextoAsc(respondRespond.response)); 
 
         // myKad_data.SetName(Helper.nameSanitizor(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.KPTName[0], MyKad_JPN.KPTName[1], true))); // need to clean since it return duplicate name with $ sign
         // myKad_data.SetNric(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.IC_NUMBER[0], MyKad_JPN.IC_NUMBER[1], true));
@@ -84,8 +174,8 @@ public class MyKad {
     
         
         Log.d(TAG, "----> Starting of Application Selection");
-        Log.d(TAG, "SELECT String :"+ myKad_jpn.SELECT_JPN_APPLICATION);
-        byte[] commandApp = myHelper.stringToByteArray(myKad_jpn.SELECT_JPN_APPLICATION);
+        Log.d(TAG, "SELECT String :00 A4 04 00 08 A0 00 00 00 54 48 00 01");
+        byte[] commandApp = myHelper.stringToByteArray("00 A4 04 00 08 A0 00 00 00 54 48 00 01");
         Log.d(TAG, "1 - command select application " + commandApp);
 
         CardReader.TransmitProgress respondApp = myReader.sendApdu(commandApp);
@@ -180,4 +270,17 @@ public class MyKad {
         Log.d(TAG, "After Covert is " + result);
         return result;
     }
+
+    private String HextoAsc(byte[] s)
+    {
+        try {
+            String theString = new String(s, "TIS620");
+            byte[] bytes = theString.getBytes(StandardCharsets.UTF_8);
+            Log.d(TAG, "Convert to TIS620 "+ bytes.toString());
+            return new String(bytes, StandardCharsets.UTF_8);
+        } catch(UnsupportedEncodingException uee) { 
+            Log.d(TAG, "ERROR HextoAsc "+ uee.toString());
+        }
+        return "";
+    }    
 }
