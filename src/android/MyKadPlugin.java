@@ -84,14 +84,15 @@ public class MyKadPlugin extends CordovaPlugin {
             return true;
         }else if (action.equals("read")) {
             try {
-                message = "I am Clicked !\n"
-                        + myCardReader.getReaderName() + "\n"
-                        + " Status : " + stateStrings[myCardReader.getState()];
+                message = "";
+                // message = "I am Clicked !\n"
+                //         + myCardReader.getReaderName() + "\n"
+                //         + " Status : " + stateStrings[myCardReader.getState()];
                 Log.d(TAG, "State 1 "+ myCardReader.getState());
                 if(checkCard(myCardReader.connectToCard())){
                     //if(true){ 
                     if (myCardReader.getState() == 2 || myCardReader.getState() == 6 ) {
-                        message += "Reader is connected " + myKad.TAG;
+                        //message += "Reader is connected " + myKad.TAG;
                         Log.d(TAG, "State 2 "+ myCardReader.getState());
                         Log.d(TAG, "Reader is connected " + myKad.TAG);
 
