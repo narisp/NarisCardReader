@@ -1,5 +1,6 @@
 package smartcard.redone.com.mykad;
 
+import com.acs.smartcard.Reader;
 import android.util.Log;
 
 /**
@@ -33,22 +34,37 @@ public class MyKad {
 
     public MyKad_Data GetMyKadDetail(){
         myKad_data = new MyKad_Data();
+        
+        Log.d(TAG, "----> Starting of Select CID");
+        Log.d(TAG, "CID String 80 B0 00 04 02 00 0D");
+        byte[] commandApp = myHelper.stringToByteArray("80 B0 00 11 02 00 64");
+        Log.d(TAG, "1 - command get CID " + commandApp);
 
-        myKad_data.SetName(Helper.nameSanitizor(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.KPTName[0], MyKad_JPN.KPTName[1], true))); // need to clean since it return duplicate name with $ sign
-        myKad_data.SetNric(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.IC_NUMBER[0], MyKad_JPN.IC_NUMBER[1], true));
-        myKad_data.SetCitizenship(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.CITIZENSHIP[0], MyKad_JPN.CITIZENSHIP[1], true));
-        myKad_data.SetDateOfBirth(Helper.toDate(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.DOB[0], MyKad_JPN.DOB[1], false))); //convert to format dd/mm/yyyy
-        myKad_data.SetGender(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.GENDER[0], MyKad_JPN.GENDER[1],true));
-        myKad_data.SetRace(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.RACE[0], MyKad_JPN.RACE[1],true));
+        CardReader.TransmitProgress respondApp = myReader.sendApdu(commandApp);
+        Log.d(TAG, "1.1 CID respondStrHex length :"+ respondApp.responseLength);
+        String respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
+        Log.d(TAG, "1.1 CID respondStr :"+ respondStr);
+
+        byte[] commandRespond = myHelper.stringToByteArray("00 C0 00 00 64");
+        CardReader.TransmitProgress respondRespond = myReader.sendApdu(commandRespond);
+        respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+        Log.d(TAG, "2 - CID command get respondStr  " + respondStr);
+
+        // myKad_data.SetName(Helper.nameSanitizor(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.KPTName[0], MyKad_JPN.KPTName[1], true))); // need to clean since it return duplicate name with $ sign
+        // myKad_data.SetNric(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.IC_NUMBER[0], MyKad_JPN.IC_NUMBER[1], true));
+        // myKad_data.SetCitizenship(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.CITIZENSHIP[0], MyKad_JPN.CITIZENSHIP[1], true));
+        // myKad_data.SetDateOfBirth(Helper.toDate(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.DOB[0], MyKad_JPN.DOB[1], false))); //convert to format dd/mm/yyyy
+        // myKad_data.SetGender(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.GENDER[0], MyKad_JPN.GENDER[1],true));
+        // myKad_data.SetRace(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.RACE[0], MyKad_JPN.RACE[1],true));
 
 
-        // JPN_1_4
-        myKad_data.SetAddress1(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_1[0], MyKad_JPN.ADDRESS_1[1],true));
-        myKad_data.SetAddress2(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_2[0], MyKad_JPN.ADDRESS_2[1],true));
-        myKad_data.SetAddress3(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_3[0], MyKad_JPN.ADDRESS_3[1],true));
-        myKad_data.SetPostcode(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.POSTCODE[0], MyKad_JPN.POSTCODE[1],false).substring(0,5));// take only first 5 digit 43200
-        myKad_data.SetState(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.STATE[0], MyKad_JPN.STATE[1],true));
-        myKad_data.SetCity(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.CITY[0], MyKad_JPN.CITY[1],true));
+        // // JPN_1_4
+        // myKad_data.SetAddress1(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_1[0], MyKad_JPN.ADDRESS_1[1],true));
+        // myKad_data.SetAddress2(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_2[0], MyKad_JPN.ADDRESS_2[1],true));
+        // myKad_data.SetAddress3(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.ADDRESS_3[0], MyKad_JPN.ADDRESS_3[1],true));
+        // myKad_data.SetPostcode(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.POSTCODE[0], MyKad_JPN.POSTCODE[1],false).substring(0,5));// take only first 5 digit 43200
+        // myKad_data.SetState(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.STATE[0], MyKad_JPN.STATE[1],true));
+        // myKad_data.SetCity(this.readMyKad(MyKad_JPN.JPN[4], MyKad_JPN.CITY[0], MyKad_JPN.CITY[1],true));
         return myKad_data;
     }
 
@@ -65,21 +81,24 @@ public class MyKad {
     */
 
     public boolean selectApplicationJPN (){
+    
+        
         Log.d(TAG, "----> Starting of Application Selection");
         Log.d(TAG, "SELECT String :"+ myKad_jpn.SELECT_JPN_APPLICATION);
         byte[] commandApp = myHelper.stringToByteArray(myKad_jpn.SELECT_JPN_APPLICATION);
         Log.d(TAG, "1 - command select application " + commandApp);
 
         CardReader.TransmitProgress respondApp = myReader.sendApdu(commandApp);
+        Log.d(TAG, "1.1 respondStrHex length :"+ respondApp.responseLength);
         String respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
-        Log.d(TAG, "1.1 respondStr :"+respondStr);
+        Log.d(TAG, "1.1 respondStr :"+ respondStr);       
 
-        if(respondStr.endsWith("6105")) {
+        if(respondStr.endsWith("610A")) {
             byte[] commandRespond = myHelper.stringToByteArray(myKad_jpn.SELECT_APPLICATION_GET_RESPONSE);
-            Log.d(TAG, "2 - command get respond  " + commandRespond);
 
             CardReader.TransmitProgress respondRespond = myReader.sendApdu(commandRespond);
             respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+            Log.d(TAG, "Select command get respondStr  " + respondStr +"Finish");
 
             if(respondStr.endsWith("9000")) {
                 return true;
@@ -89,6 +108,21 @@ public class MyKad {
         }else{
             return false;
         }
+        // if(respondStr.endsWith("6105")) {
+        //     byte[] commandRespond = myHelper.stringToByteArray(myKad_jpn.SELECT_APPLICATION_GET_RESPONSE);
+        //     Log.d(TAG, "2 - command get respond  " + commandRespond);
+
+        //     CardReader.TransmitProgress respondRespond = myReader.sendApdu(commandRespond);
+        //     respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
+
+        //     if(respondStr.endsWith("9000")) {
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }else{
+        //     return false;
+        // }              
     }
 
     public String readMyKad(String jpn,  String str_length, String str_offset, boolean convert)  {

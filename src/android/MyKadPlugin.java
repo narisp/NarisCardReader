@@ -86,13 +86,16 @@ public class MyKadPlugin extends CordovaPlugin {
                 message = "I am Clicked !\n"
                         + myCardReader.getReaderName() + "\n"
                         + " Status : " + stateStrings[myCardReader.getState()];
-
-
+                Log.d(TAG, "State 1 "+ myCardReader.getState());
                 if(checkCard(myCardReader.connectToCard())){
-                    if (myCardReader.getState() == 5 || myCardReader.getState() == 6 ) {
+                    //if(true){ 
+                    if (myCardReader.getState() == 2 || myCardReader.getState() == 6 ) {
                         message += "Reader is connected " + myKad.TAG;
+                        Log.d(TAG, "State 2 "+ myCardReader.getState());
+                        Log.d(TAG, "Reader is connected " + myKad.TAG);
 
                         if (myKad.selectApplicationJPN() == true) {
+                            Log.d(TAG, "selectApplicationJPN == true");
                             myKad_data = myKad.GetMyKadDetail();
                             
                             message += "Result is "
@@ -172,8 +175,10 @@ public class MyKadPlugin extends CordovaPlugin {
             if (CardReader.isConnectedToReader) {
                 if (myKad.checkCard(connectProgress)) {
                     //message += "check card true";
+                    Log.d(TAG,"check card true");
                     return true;
                 }
+                Log.d(TAG,"check card false due to " + connectProgress.atr);
                 //message += "check card false due to " + connectProgress.atr;
                 return false;
             }

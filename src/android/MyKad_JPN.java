@@ -27,8 +27,10 @@ public class MyKad_JPN {
     static final String THUMBPRINT_LEFT[]                   = { "FF", "6D 02" };
 
     static final String ATR                                 = "3B 67 00 00 73 20 00 6C 68 90 00";
-    static final String SELECT_JPN_APPLICATION              = "00 A4 04 00 0A A0 00 00 00 74 4A 50 4E 00 10";
-    static final String SELECT_APPLICATION_GET_RESPONSE     = "00 C0 00 00 05";
+    //static final String SELECT_JPN_APPLICATION              = "00 A4 04 00 0A A0 00 00 00 74 4A 50 4E 00 10";
+    static final String SELECT_JPN_APPLICATION              = "00 A4 04 00 08 A0 00 00 00 54 48 00 01";
+    //static final String SELECT_APPLICATION_GET_RESPONSE     = "00 C0 00 00 05";
+    static final String SELECT_APPLICATION_GET_RESPONSE     = "00 C0 00 00 0A";
 
     static final String SET_LENGTH                          = "C8 32 00 00 05 08 00 00";
     static final String SELECT_INFO                         = "CC 00 00 00 08";

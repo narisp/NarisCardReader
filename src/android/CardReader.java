@@ -300,17 +300,21 @@ public class CardReader {
         if (this._deviceSlotNum == -1) {
             return null;
         }
-        logMsg("Connecting Card");
-        logMsg("Slot " + this._deviceSlotNum + ": " + powerActionStrings[2] + "...");
+        Log.d(TAG,"Connecting Card");
+        Log.d(TAG,"Slot " + this._deviceSlotNum + ": " + powerActionStrings[2] + "...");
         ConnectProgress connectProgress = new ConnectProgress();
         try {
-            byte[] power = this.mReaderInstance.power(this._deviceSlotNum, 2);
-            logMsg("ATR:");
+            Log.d(TAG,"connectToCard state 1 :"+ getState());
+            byte[] power = this.mReaderInstance.power(this._deviceSlotNum, Reader.CARD_WARM_RESET);
+            mReaderInstance.setProtocol(0,Reader.PROTOCOL_T0);
+            Log.d(TAG,"ATR:");
             logBuffer(power, power.length);
             connectProgress.atr = power;
             connectProgress.atrLength = power.length;
             connectProgress.e = null;
-            logMsg("atr " + connectProgress.atr + "length " + connectProgress.atrLength);
+            Log.d(TAG,"atr " + connectProgress.atr + " length " + connectProgress.atrLength);
+            Log.d(TAG,"Connection Progress:"+ connectProgress.toString());
+            Log.d(TAG,"connectToCard state 2 :"+ getState());
             return connectProgress;
         } catch (Exception e) {
             logMsg(e.toString());
@@ -460,10 +464,12 @@ public class CardReader {
         if (this._deviceSlotNum == -1) {
             return null;
         }
-        byte[] bArr2 = new byte[300];
+        byte[] bArr2 = new byte[256];
         TransmitProgress transmitProgress = new TransmitProgress();
         try {
             int transmit = this.mReaderInstance.transmit(this._deviceSlotNum, bArr, bArr.length, bArr2, bArr2.length);
+            Log.e(TAG, "bArr2 Response :"+ bArr2.toString());
+            
             transmitProgress.command = bArr;
             transmitProgress.commandLength = bArr.length;
             transmitProgress.response = bArr2;
@@ -472,6 +478,7 @@ public class CardReader {
             this.logsHandler.post(new LogHandler(transmitProgress));
             return transmitProgress;
         } catch (Exception e) {
+            Log.e(TAG, "Error in sendApdu:"+ e.toString());
             transmitProgress.command = null;
             transmitProgress.commandLength = 0;
             transmitProgress.response = null;
