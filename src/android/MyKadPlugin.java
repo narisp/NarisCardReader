@@ -107,6 +107,7 @@ public class MyKadPlugin extends CordovaPlugin {
                                     + myKad_data.GetAddress1() + "|"
                                     + myKad_data.GetDateOfBirth();
                             ;
+                            Log.d(TAG,"Return Message:"+ message);
                             /*
                             obj.put(NAME,myKad_data.GetName());
                             obj.put(NRIC,myKad_data.GetNric());
