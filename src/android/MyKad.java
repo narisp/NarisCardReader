@@ -1,9 +1,12 @@
 package smartcard.redone.com.mykad;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
 import com.acs.smartcard.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import android.util.Log;
 
 /**
@@ -125,22 +128,302 @@ Log.d(TAG, "Address to TIS620:"+ HextoAsc(respondRespond.response));
 myKad_data.SetAddress1(HextoAsc(respondRespond.response).trim());
 
 /*=================================== Image*/
+// //Round 1
 // Log.d(TAG, "----> Starting of Select Image");
+// String responseImageStr = "";
+// String responseBase64 = "";
+// ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+// ByteArrayOutputStream outputStreamLength = new ByteArrayOutputStream( );
+
 // commandApp = myHelper.stringToByteArray("80 B0 01 7B 02 00 FF");
-// Log.d(TAG, "1 - command get Image " + commandApp);
-
 // respondApp = myReader.sendApdu(commandApp);
-// Log.d(TAG, "1.1 Image respondStrHex length :"+ respondApp.responseLength);
-// respondStr = Helper.byteToHexString(respondApp.response, respondApp.responseLength);
-// Log.d(TAG, "1.1 Image respondStr :"+ respondStr);
-
 // commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
 // respondRespond = myReader.sendApdu(commandRespond);
-// //respondStr = Helper.byteToHexString(respondRespond.response, respondRespond.responseLength);
-// //Log.d(TAG, "2 - Image command get respondStr (End with 900?)  " + respondStr);
-// Log.d(TAG, "Image 1/20 to TIS620:"+ HextoAsc(respondRespond.response)); 
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+// // //Round 2
+// commandApp = myHelper.stringToByteArray("80 B0 02 7A 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
 
-        // myKad_data.SetName(Helper.nameSanitizor(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.KPTName[0], MyKad_JPN.KPTName[1], true))); // need to clean since it return duplicate name with $ sign
+// // //Round 3
+// commandApp = myHelper.stringToByteArray("80 B0 03 79 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 4
+// commandApp = myHelper.stringToByteArray("80 B0 04 78 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 5
+// commandApp = myHelper.stringToByteArray("80 B0 05 77 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 6
+// commandApp = myHelper.stringToByteArray("80 B0 06 76 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 7
+// commandApp = myHelper.stringToByteArray("80 B0 07 75 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 8
+// commandApp = myHelper.stringToByteArray("80 B0 08 74 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 9
+// commandApp = myHelper.stringToByteArray("80 B0 09 73 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 10
+// commandApp = myHelper.stringToByteArray("80 B0 0A 72 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 11
+// commandApp = myHelper.stringToByteArray("80 B0 0B 71 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 12
+// commandApp = myHelper.stringToByteArray("80 B0 0C 70 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 13
+// commandApp = myHelper.stringToByteArray("80 B0 0D 6F 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 14
+// commandApp = myHelper.stringToByteArray("80 B0 0E 6E 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 15
+// commandApp = myHelper.stringToByteArray("80 B0 0F 6D 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 16
+// commandApp = myHelper.stringToByteArray("80 B0 10 6C 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 17
+// commandApp = myHelper.stringToByteArray("80 B0 11 6B 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 18
+// commandApp = myHelper.stringToByteArray("80 B0 12 6A 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// // //Round 19
+// commandApp = myHelper.stringToByteArray("80 B0 13 69 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+// // //Round 20
+// commandApp = myHelper.stringToByteArray("80 B0 14 68 02 00 FF");
+// respondApp = myReader.sendApdu(commandApp);
+// commandRespond = myHelper.stringToByteArray("00 C0 00 00 FF");
+// respondRespond = myReader.sendApdu(commandRespond);
+// responseImageStr += Helper.byteAsString(respondRespond.response, 0, respondRespond.responseLength, false);
+// responseBase64 += Base64.getEncoder().encodeToString(respondRespond.response);
+// try{
+//     outputStream.write(respondRespond.response);
+//     outputStreamLength.write(respondRespond.response,0, respondRespond.responseLength - 2);
+// }catch(java.io.IOException e){
+//     Log.d(TAG,"PHOTO ERROR");
+// }
+
+// Log.d(TAG, "99 ImageStr: "+ responseImageStr);
+// Log.d(TAG, "99 Image Base64: "+ responseBase64);
+// String xx = new String(outputStream.toByteArray(), StandardCharsets.UTF_8);
+// Log.d(TAG, "99 big byte :"+ xx);
+// Log.d(TAG, "99 byte encode : "+ Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+// Log.d(TAG, "99 byte encode length : "+ Base64.getEncoder().encodeToString(outputStreamLength.toByteArray()));
+
+
+
+
+
+// myKad_data.SetName(Helper.nameSanitizor(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.KPTName[0], MyKad_JPN.KPTName[1], true))); // need to clean since it return duplicate name with $ sign
         // myKad_data.SetNric(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.IC_NUMBER[0], MyKad_JPN.IC_NUMBER[1], true));
         // myKad_data.SetCitizenship(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.CITIZENSHIP[0], MyKad_JPN.CITIZENSHIP[1], true));
         // myKad_data.SetDateOfBirth(Helper.toDate(this.readMyKad(MyKad_JPN.JPN[1], MyKad_JPN.DOB[0], MyKad_JPN.DOB[1], false))); //convert to format dd/mm/yyyy
@@ -282,5 +565,7 @@ myKad_data.SetAddress1(HextoAsc(respondRespond.response).trim());
             Log.d(TAG, "ERROR HextoAsc "+ uee.toString());
         }
         return "";
-    }    
+    }
+
+    
 }

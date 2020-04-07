@@ -464,7 +464,7 @@ public class CardReader {
         if (this._deviceSlotNum == -1) {
             return null;
         }
-        byte[] bArr2 = new byte[256];
+        byte[] bArr2 = new byte[300];
         TransmitProgress transmitProgress = new TransmitProgress();
         try {
             int transmit = this.mReaderInstance.transmit(this._deviceSlotNum, bArr, bArr.length, bArr2, bArr2.length);

@@ -100,13 +100,12 @@ public class MyKadPlugin extends CordovaPlugin {
                             Log.d(TAG, "selectApplicationJPN == true");
                             myKad_data = myKad.GetMyKadDetail();
                             
-                            message += "Result is "
-                                    + myKad_data.GetName() + "\n"
-                                    + myKad_data.GetNric() + "\n"
-                                    + myKad_data.GetDateOfBirth() +"\n"
-                                    + myKad_data.GetCity() + "\n"
-                                    + myKad_data.GetAddress1() + "\n"
-                                    + myKad_data.GetDateOfBirth() + "\n"
+                            message = myKad_data.GetName() + "|"
+                                    + myKad_data.GetNric() + "|"
+                                    + myKad_data.GetDateOfBirth() +"|"
+                                    + myKad_data.GetCity() + "|"
+                                    + myKad_data.GetAddress1() + "|"
+                                    + myKad_data.GetDateOfBirth();
                             ;
                             /*
                             obj.put(NAME,myKad_data.GetName());
